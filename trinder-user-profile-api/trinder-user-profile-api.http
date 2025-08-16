@@ -1,0 +1,6 @@
+@trinder_user_profile_api_HostAddress = http://localhost:5160
+
+GET {{trinder_user_profile_api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

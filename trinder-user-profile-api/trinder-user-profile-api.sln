@@ -1,0 +1,53 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36203.30
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trinder.UserProfile.API", "Trinder.UserProfile.API.csproj", "{94C3FB9A-770A-4420-89CD-5889C4AE2079}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{D738B92E-E9D0-4AFA-8F80-A7004B628D30}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trinder.UserProfile.Domain", "..\Trinder.UserProfile.Domain\Trinder.UserProfile.Domain.csproj", "{C78EFA1F-CA88-4C62-A8C0-69516E1AE646}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trinder.UserProfile.Application", "..\Trinder.UserProfile.Application\Trinder.UserProfile.Application.csproj", "{3832EA6A-4D7B-4557-A7B6-22B147F5A0AB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trinder.UserProfile.Infrastructure", "..\Trinder.UserProfile.Infrastructure\Trinder.UserProfile.Infrastructure.csproj", "{0FB715D3-BC82-4599-B13F-32B0966DE2D1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{94C3FB9A-770A-4420-89CD-5889C4AE2079}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94C3FB9A-770A-4420-89CD-5889C4AE2079}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94C3FB9A-770A-4420-89CD-5889C4AE2079}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94C3FB9A-770A-4420-89CD-5889C4AE2079}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C78EFA1F-CA88-4C62-A8C0-69516E1AE646}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C78EFA1F-CA88-4C62-A8C0-69516E1AE646}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C78EFA1F-CA88-4C62-A8C0-69516E1AE646}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C78EFA1F-CA88-4C62-A8C0-69516E1AE646}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3832EA6A-4D7B-4557-A7B6-22B147F5A0AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3832EA6A-4D7B-4557-A7B6-22B147F5A0AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3832EA6A-4D7B-4557-A7B6-22B147F5A0AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3832EA6A-4D7B-4557-A7B6-22B147F5A0AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0FB715D3-BC82-4599-B13F-32B0966DE2D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FB715D3-BC82-4599-B13F-32B0966DE2D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FB715D3-BC82-4599-B13F-32B0966DE2D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FB715D3-BC82-4599-B13F-32B0966DE2D1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{94C3FB9A-770A-4420-89CD-5889C4AE2079} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{C78EFA1F-CA88-4C62-A8C0-69516E1AE646} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{3832EA6A-4D7B-4557-A7B6-22B147F5A0AB} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{0FB715D3-BC82-4599-B13F-32B0966DE2D1} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0E6BB905-6144-4811-B629-0ED210089573}
+	EndGlobalSection
+EndGlobal
