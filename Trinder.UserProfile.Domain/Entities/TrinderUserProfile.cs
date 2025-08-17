@@ -1,6 +1,6 @@
 ﻿namespace Trinder.UserProfile.Domain.Entities;
 
-public class UserProfile
+public class TrinderUserProfile
 {
     public int Id { get; set; }
     public string UserName { get; set; } = default!;

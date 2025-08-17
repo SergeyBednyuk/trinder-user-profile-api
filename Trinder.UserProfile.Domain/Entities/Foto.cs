@@ -9,5 +9,5 @@ public class Foto
     public DateTime UploadedAt { get; set; }
 
     public int UserProfileId { get; set; }
-    public UserProfile UserProfile { get; set; } = default!;
+    public TrinderUserProfile UserProfile { get; set; } = default!;
 }
