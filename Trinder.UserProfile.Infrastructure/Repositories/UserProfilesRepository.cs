@@ -1,32 +1,59 @@
-﻿using Trinder.UserProfile.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using Trinder.UserProfile.Domain.Entities;
 using Trinder.UserProfile.Domain.RepositoriesInterfaces;
+using Trinder.UserProfile.Infrastructure.Persistence;
 
 namespace Trinder.UserProfile.Infrastructure.Repositories;
 
-public class UserProfilesRepository : IUserProfilesRepository
+public class UserProfilesRepository(UserProfilesDbContext dbContext) : IUserProfilesRepository
 {
-    public Task<TrinderUserProfile> AddAsync(TrinderUserProfile user, CancellationToken cancellationToken = default)
+    public async Task<TrinderUserProfile> AddAsync(TrinderUserProfile user, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        dbContext.TrinderUserProfiles.Add(user);
+        await dbContext.SaveChangesAsync(cancellationToken);
+
+        return user;
     }
 
-    public Task<bool> DeleteAsync(int id, CancellationToken cancellationToken = default)
+    public async Task<bool> DeleteAsync(int id, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        var userProfileToDelete = await dbContext.TrinderUserProfiles.FindAsync(id);
+
+        if (userProfileToDelete is null)
+            return false;
+
+        dbContext.TrinderUserProfiles.Remove(userProfileToDelete);
+        var result = await dbContext.SaveChangesAsync(cancellationToken);
+
+        return result > 0;
     }
 
-    public Task<IReadOnlyCollection<TrinderUserProfile>> GetAllAsync(CancellationToken cancellationToken = default)
+    public async Task<IReadOnlyCollection<TrinderUserProfile>> GetAllAsync(CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        var userProfiles = await dbContext.TrinderUserProfiles.Include(x => x.Fotos)
+                                                              .Include(x => x.Interests)
+                                                              .AsNoTracking()
+                                                              .ToListAsync(cancellationToken);
+
+        return userProfiles;
     }
 
-    public Task<TrinderUserProfile?> GetByIdAsync(int id, CancellationToken cancellationToken = default)
+    public async Task<TrinderUserProfile?> GetByIdAsync(int id, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        var userProfile = await dbContext.TrinderUserProfiles.Include(x => x.Fotos)
+                                                             .Include(x => x.Interests)
+                                                             .AsNoTracking()
+                                                             .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+
+        return userProfile;
     }
 
-    public Task<bool> UpdateAsync(TrinderUserProfile user, CancellationToken cancellationToken = default)
+    public async Task<bool> UpdateAsync(TrinderUserProfile user, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        //TODO update the method to reduce amount of updated properties?
+        dbContext.TrinderUserProfiles.Update(user);
+        var result = await dbContext.SaveChangesAsync(cancellationToken);
+
+        return result > 0;
     }
 }
