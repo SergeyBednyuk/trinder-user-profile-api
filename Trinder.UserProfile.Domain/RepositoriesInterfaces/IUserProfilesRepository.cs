@@ -3,7 +3,7 @@ using Trinder.UserProfile.Domain.Helpers;
 
 namespace Trinder.UserProfile.Domain.RepositoriesInterfaces;
 
-public interface IUserProfileRepository
+public interface IUserProfilesRepository
 {
     Task<IReadOnlyCollection<TrinderUserProfile>> GetAllAsync(CancellationToken cancellationToken = default);
     //TODO
