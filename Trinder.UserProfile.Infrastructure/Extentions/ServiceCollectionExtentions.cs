@@ -6,7 +6,7 @@ using Trinder.UserProfile.Infrastructure.Persistence;
 using Trinder.UserProfile.Infrastructure.Repositories;
 using Trinder.UserProfile.Infrastructure.Seeders;
 
-namespace Restaurants.Infrastructure.Extentions;
+namespace Trinder.UserProfile.Infrastructure.Extentions;
 
 public static class ServiceCollectionExtentions
 {
