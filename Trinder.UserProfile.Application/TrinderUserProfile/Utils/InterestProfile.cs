@@ -8,7 +8,8 @@ public class InterestProfile : Profile
 {
     public InterestProfile()
     {
-        CreateMap<Interest, ResponseInterestDto>()
-            .ReverseMap();
+        CreateMap<Interest, ResponseInterestDto>();
+
+        CreateMap<CreateInterestDto, Interest>();
     }
 }
