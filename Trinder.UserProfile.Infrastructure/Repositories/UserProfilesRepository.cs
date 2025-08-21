@@ -38,12 +38,32 @@ public class UserProfilesRepository(UserProfilesDbContext dbContext) : IUserProf
         return userProfiles;
     }
 
+    public async Task<TrinderUserProfile?> GetByEmailAsync(string email, CancellationToken cancellationToken = default)
+    {
+        var userProfile = await dbContext.TrinderUserProfiles.Include(x => x.Fotos)
+                                                     .Include(x => x.Interests)
+                                                     .AsNoTracking()
+                                                     .FirstOrDefaultAsync(x => x.UserEmail == email, cancellationToken);
+
+        return userProfile;
+    }
+
     public async Task<TrinderUserProfile?> GetByIdAsync(int id, CancellationToken cancellationToken = default)
     {
         var userProfile = await dbContext.TrinderUserProfiles.Include(x => x.Fotos)
                                                              .Include(x => x.Interests)
                                                              .AsNoTracking()
                                                              .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+
+        return userProfile;
+    }
+
+    public async Task<TrinderUserProfile?> GetByUserNameAsync(string userName, CancellationToken cancellationToken = default)
+    {
+        var userProfile = await dbContext.TrinderUserProfiles.Include(x => x.Fotos)
+                                                     .Include(x => x.Interests)
+                                                     .AsNoTracking()
+                                                     .FirstOrDefaultAsync(x => x.UserName == userName, cancellationToken);
 
         return userProfile;
     }

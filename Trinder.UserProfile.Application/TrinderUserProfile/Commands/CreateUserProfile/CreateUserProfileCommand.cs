@@ -1,18 +1,13 @@
 ﻿using MediatR;
+using Trinder.UserProfile.Application.TrinderUserProfile.Dtos;
 
 namespace Trinder.UserProfile.Application.TrinderUserProfile.Commands.CreateUserProfile;
 
-public class CreateUserProfileCommand : IRequest<int>
+public class CreateUserProfileCommand(string userName, string email, IEnumerable<CreateFotoDto> fotos, IEnumerable<CreateInterestDto> interests, string? bio = null) : IRequest<int>
 {
-    public int Id { get; set; }
-    public string UserName { get; set; } = default!;
-    public string Email { get; set; } = default!;
-    public string? Bio { get; set; }
-
-    //TODO
-    public string FotoName { get; set; } = default!;
-    public string FotoUrl { get; set; } = default!;
-    public bool IsItProfileFoto { get; set; }
-    //TODO
-    public string Name { get; set; } = default!;
+    public string UserName { get; } = userName;
+    public string Email { get; } = email;
+    public string? Bio { get; } = bio;
+    public IEnumerable<CreateFotoDto> Fotos { get; } = fotos;
+    public IEnumerable<CreateInterestDto> Interests { get; } = interests;
 }

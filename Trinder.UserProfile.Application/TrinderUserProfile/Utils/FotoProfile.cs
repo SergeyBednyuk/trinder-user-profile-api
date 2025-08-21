@@ -8,7 +8,8 @@ public class FotoProfile : Profile
 {
     public FotoProfile()
     {
-        CreateMap<Foto, ResponseFotoDto>()
-            .ReverseMap();
+        CreateMap<Foto, ResponseFotoDto>();
+
+        CreateMap<CreateFotoDto, Foto>();
     }
 }

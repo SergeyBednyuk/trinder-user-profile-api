@@ -9,6 +9,8 @@ public interface IUserProfilesRepository
     //TODO
     //Task<IReadOnlyCollection<TrinderUserProfile>> GetAllFilteringAsync(UserProfilesQueryParameters queryParameters);
     Task<TrinderUserProfile?> GetByIdAsync(int id, CancellationToken cancellationToken = default);
+    Task<TrinderUserProfile?> GetByEmailAsync(string email, CancellationToken cancellationToken = default);
+    Task<TrinderUserProfile?> GetByUserNameAsync(string userName, CancellationToken cancellationToken = default);
     Task<TrinderUserProfile> AddAsync(TrinderUserProfile user, CancellationToken cancellationToken = default);
     Task<bool> UpdateAsync(TrinderUserProfile user, CancellationToken cancellationToken = default);
     Task<bool> DeleteAsync(int id, CancellationToken cancellationToken = default);
