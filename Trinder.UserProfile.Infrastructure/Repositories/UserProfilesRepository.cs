@@ -7,12 +7,12 @@ namespace Trinder.UserProfile.Infrastructure.Repositories;
 
 public class UserProfilesRepository(UserProfilesDbContext dbContext) : IUserProfilesRepository
 {
-    public async Task<TrinderUserProfile> AddAsync(TrinderUserProfile user, CancellationToken cancellationToken = default)
+    public async Task<TrinderUserProfile> AddAsync(TrinderUserProfile userProfile, CancellationToken cancellationToken = default)
     {
-        dbContext.TrinderUserProfiles.Add(user);
+        dbContext.TrinderUserProfiles.Add(userProfile);
         await dbContext.SaveChangesAsync(cancellationToken);
 
-        return user;
+        return userProfile;
     }
 
     public async Task<bool> DeleteAsync(int id, CancellationToken cancellationToken = default)
@@ -29,6 +29,12 @@ public class UserProfilesRepository(UserProfilesDbContext dbContext) : IUserProf
     }
 
     public async Task<IReadOnlyCollection<TrinderUserProfile>> GetAllAsync(CancellationToken cancellationToken = default)
+    {
+        var userProfiles = await dbContext.TrinderUserProfiles.AsNoTracking().ToListAsync(cancellationToken);
+        return userProfiles;
+    }
+
+    public async Task<IReadOnlyCollection<TrinderUserProfile>> GetAllWithSummariesAsync(CancellationToken cancellationToken = default)
     {
         var userProfiles = await dbContext.TrinderUserProfiles.Include(x => x.Fotos)
                                                               .Include(x => x.Interests)
@@ -68,10 +74,19 @@ public class UserProfilesRepository(UserProfilesDbContext dbContext) : IUserProf
         return userProfile;
     }
 
-    public async Task<bool> UpdateAsync(TrinderUserProfile user, CancellationToken cancellationToken = default)
+    public async Task<bool> UpdateAsync(TrinderUserProfile userProfile, CancellationToken cancellationToken = default)
     {
-        //TODO update the method to reduce amount of updated properties?
-        dbContext.TrinderUserProfiles.Update(user);
+        //TODO update the method to reduce amount of updated properties
+        //no need to delete. Just for learing porpose
+        //dbContext.TrinderUserProfiles.Update(user);
+
+        var userProfileFromDb = await dbContext.TrinderUserProfiles.FindAsync(userProfile.Id);
+        if (userProfileFromDb is null) return false;
+
+        userProfileFromDb.UserName = userProfile.UserName;
+        userProfileFromDb.UserEmail = userProfile.UserEmail;
+        userProfileFromDb.Bio = userProfile.Bio;
+
         var result = await dbContext.SaveChangesAsync(cancellationToken);
 
         return result > 0;
