@@ -1,0 +1,37 @@
+﻿@Trinder.UserProfile.API_HostAddress = http://localhost:5160
+
+POST {{Trinder.UserProfile.API_HostAddress}}/api/userprofile
+Content-Type: application/json
+
+{
+    "userName": "user1",
+    "email": "user1@testing.com",
+    "bio": "Some User2 Bio"
+}
+
+###
+
+POST {{Trinder.UserProfile.API_HostAddress}}/api/userprofile
+Content-Type: application/json
+
+{
+    "userName": "user2",
+    "email": "user2@testing.com",
+    "bio": "Some User2 Bio"
+}
+
+###
+
+PUT {{Trinder.UserProfile.API_HostAddress}}/api/userprofile
+Content-Type: application/json
+
+{
+  //UpdateUserProfileInfoCommand
+}
+
+###
+
+@id=3
+GET {{Trinder.UserProfile.API_HostAddress}}/api/userprofile/{{id}}
+
+###

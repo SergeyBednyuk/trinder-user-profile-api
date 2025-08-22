@@ -4,6 +4,7 @@ using System.Reflection;
 using Trinder.UserProfile.Application.Extentions;
 using Trinder.UserProfile.Infrastructure.Extentions;
 using Trinder.UserProfile.Infrastructure.Seeders;
+using trinder_user_profile_api.Middlewares;
 
 namespace trinder_user_profile_api
 {
@@ -21,6 +22,12 @@ namespace trinder_user_profile_api
             builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
             builder.Services.AddControllers();
+
+            builder.Services.AddScoped<ErrorHandlingMiddleware>();
+
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen();
+
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
 
@@ -31,13 +38,18 @@ namespace trinder_user_profile_api
             await seeder.Seed();
 
             // Configure the HTTP request pipeline.
+
+            app.UseMiddleware<ErrorHandlingMiddleware>();
+
             if (app.Environment.IsDevelopment())
             {
-                app.MapOpenApi();
+                //app.MapOpenApi();
+                //app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI();
             }
 
             app.UseAuthorization();
-
 
             app.MapControllers();
 

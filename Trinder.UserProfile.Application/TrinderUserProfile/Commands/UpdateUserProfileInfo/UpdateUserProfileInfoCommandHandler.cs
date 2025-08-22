@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
 using Trinder.UserProfile.Application.TrinderUserProfile.Commands.UpdateUserProfile;
+using Trinder.UserProfile.Domain.Exceptions;
 using Trinder.UserProfile.Domain.RepositoriesInterfaces;
 
 namespace Trinder.UserProfile.Application.TrinderUserProfile.Commands.UpdateUserProfileInfo;
@@ -14,7 +15,7 @@ public class UpdateUserProfileInfoCommandHandler(ILogger<UpdateUserProfileInfoCo
                         request.UserName, request.Email);
 
         var user = await userProfilesRepository.GetByIdAsync(request.Id, cancellationToken);
-        if (user is null) throw new Exception($"User profile with {request.Id} id doesn't exists");
+        if (user is null) throw new NotFoundException(nameof(TrinderUserProfile), request.Id.ToString());
 
         var userProfileToBeUpdated = new Domain.Entities.TrinderUserProfile
         {

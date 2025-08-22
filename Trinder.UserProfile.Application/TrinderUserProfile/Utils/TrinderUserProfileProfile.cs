@@ -8,6 +8,7 @@ internal class TrinderUserProfileProfile : Profile
     public TrinderUserProfileProfile()
     {
         CreateMap<Domain.Entities.TrinderUserProfile, ResponseTrinderUserProfileDto>()
+            .ForMember(m => m.Email, opt => opt.MapFrom(src => src.UserEmail))
             .ReverseMap();
     }
 }
