@@ -16,11 +16,11 @@ public class CreateUserProfileCommandValidation: AbstractValidator<CreateUserPro
             .NotNull()
             .NotEmpty()
             .EmailAddress()
-            .WithMessage("The email field cannot be empty.");
+            .WithMessage("The email field cannot be empty or should contain email.");
 
         When(c => !string.IsNullOrEmpty(c.Bio), () =>
         {
-            RuleFor(x => x.Bio).MinimumLength(10)
+            RuleFor(x => x.Bio)
                 .MinimumLength(10).WithMessage("Your bio must be at least 10 characters long.")
                 .MaximumLength(500).WithMessage("Your bio cannot be longer than 500 characters.");
         });

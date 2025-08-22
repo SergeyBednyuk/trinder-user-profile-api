@@ -1,6 +1,4 @@
-﻿using Trinder.UserProfile.Domain.Entities;
-
-namespace Trinder.UserProfile.Application.TrinderUserProfile.Dtos;
+﻿namespace Trinder.UserProfile.Application.TrinderUserProfile.Dtos;
 
 public class ResponseTrinderUserProfileDto
 {

@@ -22,6 +22,12 @@ namespace trinder_user_profile_api
             builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
             builder.Services.AddControllers();
+
+            builder.Services.AddScoped<ErrorHandlingMiddleware>();
+
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen();
+
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
 
@@ -31,16 +37,19 @@ namespace trinder_user_profile_api
             var seeder = scoped.ServiceProvider.GetRequiredService<ITrinderUserProfileSeeder>();
             await seeder.Seed();
 
+            // Configure the HTTP request pipeline.
+
             app.UseMiddleware<ErrorHandlingMiddleware>();
 
-            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
-                app.MapOpenApi();
+                //app.MapOpenApi();
+                //app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI();
             }
 
             app.UseAuthorization();
-
 
             app.MapControllers();
 

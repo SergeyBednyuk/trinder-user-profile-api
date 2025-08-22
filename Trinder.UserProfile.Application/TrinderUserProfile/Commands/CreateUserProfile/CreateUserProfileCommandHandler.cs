@@ -2,7 +2,9 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Trinder.UserProfile.Application.TrinderUserProfile.Utils;
 using Trinder.UserProfile.Domain.Entities;
+using Trinder.UserProfile.Domain.Exceptions;
 using Trinder.UserProfile.Domain.RepositoriesInterfaces;
 
 namespace Trinder.UserProfile.Application.TrinderUserProfile.Commands.CreateUserProfile;
@@ -17,10 +19,10 @@ internal class CreateUserProfileCommandHandler(ILogger<CreateUserProfileCommandH
                                 request.UserName, request.Email);
 
         var user = await userProfilesRepository.GetByUserNameAsync(request.UserName, cancellationToken);
-        if (user is not null) throw new Exception($"User profile with {request.UserName} user name already exists");
+        if (user is not null) throw new AlreadyExistException(nameof(TrinderUserProfileProfile), request.UserName);
 
         user = await userProfilesRepository.GetByEmailAsync(request.Email, cancellationToken);
-        if (user is not null) throw new Exception($"User profile with {request.Email} email already exists");
+        if (user is not null) throw new AlreadyExistException(nameof(TrinderUserProfileProfile), request.Email);
 
         var userProfile = new Domain.Entities.TrinderUserProfile()
         {
