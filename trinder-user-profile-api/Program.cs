@@ -4,6 +4,7 @@ using System.Reflection;
 using Trinder.UserProfile.Application.Extentions;
 using Trinder.UserProfile.Infrastructure.Extentions;
 using Trinder.UserProfile.Infrastructure.Seeders;
+using trinder_user_profile_api.Middlewares;
 
 namespace trinder_user_profile_api
 {
@@ -29,6 +30,8 @@ namespace trinder_user_profile_api
             var scoped = app.Services.CreateScope();
             var seeder = scoped.ServiceProvider.GetRequiredService<ITrinderUserProfileSeeder>();
             await seeder.Seed();
+
+            app.UseMiddleware<ErrorHandlingMiddleware>();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
