@@ -25,7 +25,14 @@ namespace trinder_user_profile_api.Middlewares
                 context.Response.StatusCode = StatusCodes.Status400BadRequest;
                 await context.Response.WriteAsync(ex.Message);
             }
-			catch(Exception ex)
+            catch (CantBePerformedException ex)
+            {
+                logger.LogWarning(ex, ex.Message);
+
+                context.Response.StatusCode = StatusCodes.Status409Conflict;
+                await context.Response.WriteAsync(ex.Message);
+            }
+            catch (Exception ex)
 			{
                 logger.LogError(ex, ex.Message);
 

@@ -15,14 +15,9 @@ public class UserProfilesRepository(UserProfilesDbContext dbContext) : IUserProf
         return userProfile;
     }
 
-    public async Task<bool> DeleteAsync(int id, CancellationToken cancellationToken = default)
+    public async Task<bool> DeleteAsync(TrinderUserProfile userProfile, CancellationToken cancellationToken = default)
     {
-        var userProfileToDelete = await dbContext.TrinderUserProfiles.FindAsync(id);
-
-        if (userProfileToDelete is null)
-            return false;
-
-        dbContext.TrinderUserProfiles.Remove(userProfileToDelete);
+        dbContext.TrinderUserProfiles.Remove(userProfile);
         var result = await dbContext.SaveChangesAsync(cancellationToken);
 
         return result > 0;
@@ -30,13 +25,15 @@ public class UserProfilesRepository(UserProfilesDbContext dbContext) : IUserProf
 
     public async Task<IReadOnlyCollection<TrinderUserProfile>> GetAllAsync(CancellationToken cancellationToken = default)
     {
-        var userProfiles = await dbContext.TrinderUserProfiles.AsNoTracking().ToListAsync(cancellationToken);
+        var userProfiles = await dbContext.TrinderUserProfiles.AsNoTracking()
+                                                              .ToListAsync(cancellationToken);
         return userProfiles;
     }
 
-    public async Task<IReadOnlyCollection<TrinderUserProfile>> GetAllWithSummariesAsync(CancellationToken cancellationToken = default)
+    public async Task<IReadOnlyCollection<TrinderUserProfile>> GetAllFullAsync(CancellationToken cancellationToken = default)
     {
-        var userProfiles = await dbContext.TrinderUserProfiles.Include(x => x.Fotos)
+        var userProfiles = await dbContext.TrinderUserProfiles.IgnoreQueryFilters()
+                                                              .Include(x => x.Fotos)
                                                               .Include(x => x.Interests)
                                                               .AsNoTracking()
                                                               .ToListAsync(cancellationToken);
@@ -47,9 +44,9 @@ public class UserProfilesRepository(UserProfilesDbContext dbContext) : IUserProf
     public async Task<TrinderUserProfile?> GetByEmailAsync(string email, CancellationToken cancellationToken = default)
     {
         var userProfile = await dbContext.TrinderUserProfiles.Include(x => x.Fotos)
-                                                     .Include(x => x.Interests)
-                                                     .AsNoTracking()
-                                                     .FirstOrDefaultAsync(x => x.UserEmail == email, cancellationToken);
+                                                             .Include(x => x.Interests)
+                                                             .AsNoTracking()
+                                                             .FirstOrDefaultAsync(x => x.UserEmail == email, cancellationToken);
 
         return userProfile;
     }
@@ -67,9 +64,9 @@ public class UserProfilesRepository(UserProfilesDbContext dbContext) : IUserProf
     public async Task<TrinderUserProfile?> GetByUserNameAsync(string userName, CancellationToken cancellationToken = default)
     {
         var userProfile = await dbContext.TrinderUserProfiles.Include(x => x.Fotos)
-                                                     .Include(x => x.Interests)
-                                                     .AsNoTracking()
-                                                     .FirstOrDefaultAsync(x => x.UserName == userName, cancellationToken);
+                                                             .Include(x => x.Interests)
+                                                             .AsNoTracking()
+                                                             .FirstOrDefaultAsync(x => x.UserName == userName, cancellationToken);
 
         return userProfile;
     }

@@ -19,10 +19,10 @@ internal class CreateUserProfileCommandHandler(ILogger<CreateUserProfileCommandH
                                 request.UserName, request.Email);
 
         var user = await userProfilesRepository.GetByUserNameAsync(request.UserName, cancellationToken);
-        if (user is not null) throw new AlreadyExistException(nameof(TrinderUserProfileProfile), request.UserName);
+        if (user is not null) throw new AlreadyExistException(nameof(TrinderFullUserProfileProfile), request.UserName);
 
         user = await userProfilesRepository.GetByEmailAsync(request.Email, cancellationToken);
-        if (user is not null) throw new AlreadyExistException(nameof(TrinderUserProfileProfile), request.Email);
+        if (user is not null) throw new AlreadyExistException(nameof(TrinderFullUserProfileProfile), request.Email);
 
         var userProfile = new Domain.Entities.TrinderUserProfile()
         {
