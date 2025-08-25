@@ -17,6 +17,6 @@ public static class ServiceCollectionExtentions
             services.AddValidatorsFromAssemblies(new List<Assembly>() { appAssembly }).AddFluentValidationAutoValidation();
         }
 
-        services.AddAutoMapper(cfg => { }, typeof(TrinderUserProfileProfile), typeof(InterestProfile), typeof(FotoProfile));
+        services.AddAutoMapper(cfg => { }, typeof(TrinderFullUserProfileProfile), typeof(InterestProfile), typeof(FotoProfile));
     }
 }

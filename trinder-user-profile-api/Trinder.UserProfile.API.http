@@ -15,9 +15,9 @@ POST {{Trinder.UserProfile.API_HostAddress}}/api/userprofile
 Content-Type: application/json
 
 {
-    "userName": "user2",
-    "email": "user2@testing.com",
-    "bio": "Some User2 Bio"
+    "userName": "deletedUser",
+    "email": "deletedUser@testing.com",
+    "bio": "Some User Bio that will be deleted"
 }
 
 ###
@@ -31,7 +31,20 @@ Content-Type: application/json
 
 ###
 
-@id=3
+@id=4
 GET {{Trinder.UserProfile.API_HostAddress}}/api/userprofile/{{id}}
+
+###
+
+DELETE {{Trinder.UserProfile.API_HostAddress}}/api/userprofile/4
+
+###
+
+
+GET {{Trinder.UserProfile.API_HostAddress}}/api/userprofile/full
+
+###
+
+GET {{Trinder.UserProfile.API_HostAddress}}/api/userprofile
 
 ###

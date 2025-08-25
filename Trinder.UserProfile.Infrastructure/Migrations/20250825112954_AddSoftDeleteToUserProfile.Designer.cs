@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Trinder.UserProfile.Infrastructure.Persistence;
@@ -11,9 +12,11 @@ using Trinder.UserProfile.Infrastructure.Persistence;
 namespace Trinder.UserProfile.Infrastructure.Migrations
 {
     [DbContext(typeof(UserProfilesDbContext))]
-    partial class UserProfilesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250825112954_AddSoftDeleteToUserProfile")]
+    partial class AddSoftDeleteToUserProfile
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

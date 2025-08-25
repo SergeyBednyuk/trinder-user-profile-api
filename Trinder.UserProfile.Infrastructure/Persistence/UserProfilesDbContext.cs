@@ -20,6 +20,7 @@ public class UserProfilesDbContext(DbContextOptions<UserProfilesDbContext> optio
             .UsingEntity<UserProfileInterest>();
 
         modelBuilder.Entity<TrinderUserProfile>()
+            .HasQueryFilter(e => !e.IsDeleted)
             .HasMany<Foto>(e => e.Fotos)
             .WithOne(e => e.UserProfile)
             .HasForeignKey(e => e.UserProfileId);

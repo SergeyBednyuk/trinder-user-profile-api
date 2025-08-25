@@ -3,11 +3,11 @@ using Trinder.UserProfile.Application.TrinderUserProfile.Dtos;
 
 namespace Trinder.UserProfile.Application.TrinderUserProfile.Utils;
 
-public class TrinderUserProfileProfile : Profile
+internal class TrinderFullUserProfileProfile : Profile
 {
-    public TrinderUserProfileProfile()
+    public TrinderFullUserProfileProfile()
     {
-        CreateMap<Domain.Entities.TrinderUserProfile, ResponseTrinderUserProfileDto>()
+        CreateMap<Domain.Entities.TrinderUserProfile, ResponseTrinderFullUserProfileDto>()
             .ForMember(m => m.Email, opt => opt.MapFrom(src => src.UserEmail))
             .ReverseMap();
     }

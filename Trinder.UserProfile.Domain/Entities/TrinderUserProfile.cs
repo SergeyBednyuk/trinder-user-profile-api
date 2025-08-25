@@ -1,6 +1,8 @@
-﻿namespace Trinder.UserProfile.Domain.Entities;
+﻿using Trinder.UserProfile.Domain.Interfaces;
 
-public class TrinderUserProfile
+namespace Trinder.UserProfile.Domain.Entities;
+
+public class TrinderUserProfile : ISoftDeletable
 {
     public int Id { get; set; }
     public string UserName { get; set; } = default!;
@@ -9,4 +11,7 @@ public class TrinderUserProfile
 
     public ICollection<Foto> Fotos { get; set; } = [];
     public ICollection<Interest> Interests { get; set; } = [];
+
+    public bool IsDeleted { get; set; } = false;
+    public DateTime? DeletedAtUtc { get; set; }
 }

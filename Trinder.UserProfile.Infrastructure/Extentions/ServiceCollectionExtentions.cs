@@ -12,8 +12,10 @@ public static class ServiceCollectionExtentions
 {
     public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
+        services.AddSingleton<SoftDeleteInterceptor>();
+
         var connectionString = configuration.GetConnectionString("UserProfilesDb");
-        services.AddDbContext<UserProfilesDbContext>(opt => opt.UseNpgsql(connectionString));
+        services.AddDbContext<UserProfilesDbContext>((sp,opt) => opt.UseNpgsql(connectionString).AddInterceptors(sp.GetRequiredService<SoftDeleteInterceptor>()));
 
         services.AddScoped<ITrinderUserProfileSeeder, TrinderUserProfileSeeder>();
         services.AddScoped<IUserProfilesRepository, UserProfilesRepository>();

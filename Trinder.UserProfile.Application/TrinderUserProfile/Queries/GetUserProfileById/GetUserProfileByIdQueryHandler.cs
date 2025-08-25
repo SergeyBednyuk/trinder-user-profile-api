@@ -8,17 +8,18 @@ using Trinder.UserProfile.Domain.RepositoriesInterfaces;
 namespace Trinder.UserProfile.Application.TrinderUserProfile.Queries.GetUserProfileById;
 
 public class GetUserProfileByIdQueryHandler(ILogger<GetUserProfileByIdQueryHandler> logger,
-    IUserProfilesRepository userProfilesRepository, IMapper mapper) : IRequestHandler<GetUserProfileByIdQuery, ResponseTrinderUserProfileDto>
+    IUserProfilesRepository userProfilesRepository, 
+    IMapper mapper) : IRequestHandler<GetUserProfileByIdQuery, ResponseTrinderFullUserProfileDto>
 {
-    public async Task<ResponseTrinderUserProfileDto> Handle(GetUserProfileByIdQuery request, CancellationToken cancellationToken)
+    public async Task<ResponseTrinderFullUserProfileDto> Handle(GetUserProfileByIdQuery request, CancellationToken cancellationToken)
     {
-        logger.LogInformation("Getting {dto} by Id", nameof(ResponseTrinderUserProfileDto));
+        logger.LogInformation("Getting {dto} by Id", nameof(ResponseTrinderFullUserProfileDto));
 
         var userProfile = await userProfilesRepository.GetByIdAsync(request.UserProfileId, cancellationToken);
         if (userProfile is null)
             throw new NotFoundException(nameof(TrinderUserProfile), request.UserProfileId.ToString());
 
-        var userProfileDto = mapper.Map<ResponseTrinderUserProfileDto>(userProfile);
+        var userProfileDto = mapper.Map<ResponseTrinderFullUserProfileDto>(userProfile);
 
         return userProfileDto;
     }
