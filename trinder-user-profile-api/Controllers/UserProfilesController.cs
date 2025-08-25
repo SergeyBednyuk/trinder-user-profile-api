@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Trinder.UserProfile.Application.TrinderUserProfile.Commands.AddUserProfileFotos;
 using Trinder.UserProfile.Application.TrinderUserProfile.Commands.CreateUserProfile;
 using Trinder.UserProfile.Application.TrinderUserProfile.Commands.DeleteUserProfile;
 using Trinder.UserProfile.Application.TrinderUserProfile.Commands.UpdateUserProfile;
@@ -54,6 +55,24 @@ namespace trinder_user_profile_api.Controllers
             var newUserProfileId = await mediator.Send(createUserProfile, cancellationToken);
 
             return CreatedAtAction(nameof(GetById), new { id = newUserProfileId }, new { id = newUserProfileId });
+        }
+
+        [HttpPost("{userProfileId}/fotos")]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(ResponseTrinderFullUserProfileDto))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> AddFotosToUserProfile([FromRoute] int userProfileId, ICollection<IFormFile> fotos, CancellationToken cancellationToken)
+        {
+            addUserProfileFotos.UserProfileId = userProfileId;
+            //TODO Update AddUserProfileFotos to able to save fotos to blob storage and return name and url
+
+            var command = new AddUserProfileFotosCommands
+            {
+                UserProfileId = userProfileId,
+                Fotos = fotoDtos
+            };
+            var updatedUserProfile = await mediator.Send(addUserProfileFotos, cancellationToken);
+
+            return CreatedAtAction(nameof(GetById), new { id = userProfileId }, updatedUserProfile);
         }
 
         [HttpPut]
