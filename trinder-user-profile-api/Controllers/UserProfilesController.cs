@@ -62,7 +62,6 @@ namespace trinder_user_profile_api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> AddFotosToUserProfile([FromRoute] int userProfileId, ICollection<IFormFile> fotos, CancellationToken cancellationToken)
         {
-            addUserProfileFotos.UserProfileId = userProfileId;
             //TODO Update AddUserProfileFotos to able to save fotos to blob storage and return name and url
 
             var command = new AddUserProfileFotosCommands
@@ -70,7 +69,7 @@ namespace trinder_user_profile_api.Controllers
                 UserProfileId = userProfileId,
                 Fotos = fotoDtos
             };
-            var updatedUserProfile = await mediator.Send(addUserProfileFotos, cancellationToken);
+            var updatedUserProfile = await mediator.Send(command, cancellationToken);
 
             return CreatedAtAction(nameof(GetById), new { id = userProfileId }, updatedUserProfile);
         }
