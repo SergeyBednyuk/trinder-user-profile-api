@@ -64,11 +64,7 @@ namespace trinder_user_profile_api.Controllers
         {
             //TODO Update AddUserProfileFotos to able to save fotos to blob storage and return name and url
 
-            var command = new AddUserProfileFotosCommands
-            {
-                UserProfileId = userProfileId,
-                Fotos = fotoDtos
-            };
+            var command = new AddUserProfileFotosCommand(userProfileId, fotos);
             var updatedUserProfile = await mediator.Send(command, cancellationToken);
 
             return CreatedAtAction(nameof(GetById), new { id = userProfileId }, updatedUserProfile);
