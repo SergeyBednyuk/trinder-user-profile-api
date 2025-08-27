@@ -6,8 +6,8 @@ public class AddUserProfileFotosCommandValidation : AbstractValidator<AddUserPro
 {
     public AddUserProfileFotosCommandValidation()
     {
-        RuleForEach(x => x.Fotos)
-            .Must(x => x.Length > 500000000)
-            .WithMessage("Foto should be less tnat 500mb");
+        RuleFor(x => x.UserProfileId)
+            .GreaterThanOrEqualTo(0)
+            .WithMessage("UserProfileId cannot be less tnat zero.");
     }
 }

@@ -1,5 +1,4 @@
 ﻿using Trinder.UserProfile.Domain.Entities;
-using Trinder.UserProfile.Domain.Helpers;
 
 namespace Trinder.UserProfile.Domain.RepositoriesInterfaces;
 
@@ -10,6 +9,7 @@ public interface IUserProfilesRepository
     //TODO
     //Task<IReadOnlyCollection<TrinderUserProfile>> GetAllFilteringAsync(UserProfilesQueryParameters queryParameters);
     Task<TrinderUserProfile?> GetByIdAsync(int id, CancellationToken cancellationToken = default);
+    Task<TrinderUserProfile?> FindByIdAsync(int id, CancellationToken cancellationToken = default);
     Task<TrinderUserProfile?> GetByEmailAsync(string email, CancellationToken cancellationToken = default);
     Task<TrinderUserProfile?> GetByUserNameAsync(string userName, CancellationToken cancellationToken = default);
     Task<TrinderUserProfile> AddAsync(TrinderUserProfile userProfile, CancellationToken cancellationToken = default);

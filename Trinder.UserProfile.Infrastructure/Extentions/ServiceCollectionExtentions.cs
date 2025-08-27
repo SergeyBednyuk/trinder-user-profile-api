@@ -1,12 +1,15 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Azure.Storage.Blobs;
+using FluentValidation;
+using FluentValidation.AspNetCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
+using Trinder.UserProfile.Domain.Interfaces;
 using Trinder.UserProfile.Domain.RepositoriesInterfaces;
 using Trinder.UserProfile.Infrastructure.Persistence;
 using Trinder.UserProfile.Infrastructure.Repositories;
 using Trinder.UserProfile.Infrastructure.Seeders;
-using Azure.Storage.Blobs;
-using Trinder.UserProfile.Domain.Interfaces;
 using Trinder.UserProfile.Infrastructure.Storages;
 
 namespace Trinder.UserProfile.Infrastructure.Extentions;
@@ -23,6 +26,12 @@ public static class ServiceCollectionExtentions
         services.AddScoped<ITrinderUserProfileSeeder, TrinderUserProfileSeeder>();
         services.AddScoped<IUserProfilesRepository, UserProfilesRepository>();
         services.AddScoped<IFotosRepository, FotosRepository>();
+
+        //var appAssembly = typeof(ServiceCollectionExtentions).Assembly;
+        //if (appAssembly is not null)
+        //{
+        //    services.AddValidatorsFromAssemblies(new List<Assembly>() { appAssembly }).AddFluentValidationAutoValidation();
+        //}
 
         //Azure Blob config
         var blobConnectionString = configuration.GetConnectionString("BlobStorage");

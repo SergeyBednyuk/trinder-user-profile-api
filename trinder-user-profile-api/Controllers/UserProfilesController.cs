@@ -8,12 +8,14 @@ using Trinder.UserProfile.Application.TrinderUserProfile.Dtos;
 using Trinder.UserProfile.Application.TrinderUserProfile.Queries.GetAllFullUserProfile;
 using Trinder.UserProfile.Application.TrinderUserProfile.Queries.GetAllUserProfile;
 using Trinder.UserProfile.Application.TrinderUserProfile.Queries.GetUserProfileById;
+using Trinder.UserProfile.Domain.Interfaces;
 
 namespace trinder_user_profile_api.Controllers
 {
     [ApiController]
     [Route("api/userprofile")]
-    public class UserProfilesController(IMediator mediator) : ControllerBase
+    public class UserProfilesController(IMediator mediator, 
+        IBlobStorageService blobStorageService) : ControllerBase
     {
         [HttpGet("{id}", Name = nameof(GetById))]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseTrinderFullUserProfileDto))]
@@ -62,11 +64,17 @@ namespace trinder_user_profile_api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> AddFotosToUserProfile([FromRoute] int userProfileId, ICollection<IFormFile> fotos, CancellationToken cancellationToken)
         {
-            //TODO Update AddUserProfileFotos to able to save fotos to blob storage and return name and url
+            List<CreateFotoDto> fotoDtos = [];
+            foreach (var foto in fotos)
+            {
+                var fileUrl = await blobStorageService.UploadToBlobStorage(foto.OpenReadStream(), $"{Guid.NewGuid()}_{foto.FileName}_{userProfileId}");
 
-            var command = new AddUserProfileFotosCommand(userProfileId, fotos);
+                fotoDtos.Add(new CreateFotoDto(foto.FileName, fileUrl, IsItProfileFoto: false));
+            }
+            
+            var command = new AddUserProfileFotosCommand(userProfileId, fotoDtos);
+
             var updatedUserProfile = await mediator.Send(command, cancellationToken);
-
             return CreatedAtAction(nameof(GetById), new { id = userProfileId }, updatedUserProfile);
         }
 

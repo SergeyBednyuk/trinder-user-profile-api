@@ -6,7 +6,7 @@ public class Foto
     public string Name { get; set; } = default!;
     public string Url { get; set; } = default!;
     public bool IsItProfileFoto { get; set; }
-    public DateTime UploadedAt { get; set; }
+    public DateTime UploadedAt { get; set; } = DateTime.UtcNow;
 
     public int UserProfileId { get; set; }
     public TrinderUserProfile UserProfile { get; set; } = default!;

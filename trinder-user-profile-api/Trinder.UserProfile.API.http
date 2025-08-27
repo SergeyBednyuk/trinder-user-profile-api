@@ -48,3 +48,12 @@ GET {{Trinder.UserProfile.API_HostAddress}}/api/userprofile/full
 GET {{Trinder.UserProfile.API_HostAddress}}/api/userprofile
 
 ###
+
+POST {{Trinder.UserProfile.API_HostAddress}}/api/userprofile/2/fotos
+Content-Type: application/json
+
+{
+  //ICollection
+}
+
+###
