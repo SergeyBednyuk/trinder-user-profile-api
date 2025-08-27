@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Trinder.UserProfile.Application.TrinderUserProfile.Commands.AddUserProfileFotos;
+using Trinder.UserProfile.Application.TrinderUserProfile.Commands.AddUserProfileInterests;
 using Trinder.UserProfile.Application.TrinderUserProfile.Commands.CreateUserProfile;
 using Trinder.UserProfile.Application.TrinderUserProfile.Commands.DeleteUserProfile;
 using Trinder.UserProfile.Application.TrinderUserProfile.Commands.UpdateUserProfile;
@@ -73,6 +74,17 @@ namespace trinder_user_profile_api.Controllers
             }
             
             var command = new AddUserProfileFotosCommand(userProfileId, fotoDtos);
+
+            var updatedUserProfile = await mediator.Send(command, cancellationToken);
+            return CreatedAtAction(nameof(GetById), new { id = userProfileId }, updatedUserProfile);
+        }
+
+        [HttpPost("{userProfileId}/interests")]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(ResponseTrinderFullUserProfileDto))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> AddInterestsToUserProfile([FromRoute] int userProfileId, ICollection<int> interestsIds, CancellationToken cancellationToken)
+        {
+            var command = new AddUserProfileInterestsCommand(userProfileId, interestsIds);
 
             var updatedUserProfile = await mediator.Send(command, cancellationToken);
             return CreatedAtAction(nameof(GetById), new { id = userProfileId }, updatedUserProfile);

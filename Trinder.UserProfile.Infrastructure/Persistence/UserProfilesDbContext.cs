@@ -14,16 +14,7 @@ public class UserProfilesDbContext(DbContextOptions<UserProfilesDbContext> optio
     {
         base.OnModelCreating(modelBuilder);
 
-        modelBuilder.Entity<TrinderUserProfile>()
-            .HasMany(e => e.Interests)
-            .WithMany(e => e.UserProfiles)
-            .UsingEntity<UserProfileInterest>();
-
-        modelBuilder.Entity<TrinderUserProfile>()
-            .HasQueryFilter(e => !e.IsDeleted)
-            .HasMany<Foto>(e => e.Fotos)
-            .WithOne(e => e.UserProfile)
-            .HasForeignKey(e => e.UserProfileId);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(UserProfilesDbContext).Assembly);
 
     }
 }
