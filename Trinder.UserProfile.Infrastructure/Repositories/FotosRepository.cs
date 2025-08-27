@@ -43,4 +43,12 @@ public class FotosRepository(UserProfilesDbContext dbContext) : IFotosRepository
     {
         throw new NotImplementedException();
     }
+
+    async Task<bool> IFotosRepository.AddFotosAsync(ICollection<Foto> newFotos, CancellationToken cancellationToken)
+    {
+        dbContext.Fotos.AddRange(newFotos);
+        var result = await dbContext.SaveChangesAsync();
+
+        return result > 0;
+    }
 }
