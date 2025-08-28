@@ -22,7 +22,7 @@ public class AddUserProfileInterestsCommandValidation : AbstractValidator<AddUse
             .WithMessage("One or more of the selected interests do not exist.");
     }
 
-    private async Task<bool> AllInterestsExist(ICollection<int> interestIds, CancellationToken token)
+    private async Task<bool> AllInterestsExist(ICollection<int> interestIds, CancellationToken cancellationToken = default)
     {
         var distinctIdsCount = interestIds.Distinct().ToList();
 

@@ -21,17 +21,19 @@ public static class ServiceCollectionExtentions
         services.AddSingleton<SoftDeleteInterceptor>();
 
         var connectionString = configuration.GetConnectionString("UserProfilesDb");
-        services.AddDbContext<UserProfilesDbContext>((sp,opt) => opt.UseNpgsql(connectionString).AddInterceptors(sp.GetRequiredService<SoftDeleteInterceptor>()));
+        services.AddDbContext<UserProfilesDbContext>((sp, opt) => opt.UseNpgsql(connectionString).AddInterceptors(sp.GetRequiredService<SoftDeleteInterceptor>()));
 
         services.AddScoped<ITrinderUserProfileSeeder, TrinderUserProfileSeeder>();
         services.AddScoped<IUserProfilesRepository, UserProfilesRepository>();
         services.AddScoped<IFotosRepository, FotosRepository>();
+        services.AddScoped<IInterestsRepository, InterestsRepository>();
 
-        //var appAssembly = typeof(ServiceCollectionExtentions).Assembly;
-        //if (appAssembly is not null)
-        //{
-        //    services.AddValidatorsFromAssemblies(new List<Assembly>() { appAssembly }).AddFluentValidationAutoValidation();
-        //}
+        var appAssembly = typeof(ServiceCollectionExtentions).Assembly;
+
+        if (appAssembly is not null)
+        {
+            services.AddValidatorsFromAssemblies(new List<Assembly>() { appAssembly }).AddFluentValidationAutoValidation();
+        }
 
         //Azure Blob config
         var blobConnectionString = configuration.GetConnectionString("BlobStorage");

@@ -1,3 +1,6 @@
-﻿namespace Trinder.UserProfile.Application.TrinderUserProfile.Commands.AddUserProfileInterests;
+﻿using MediatR;
+using Trinder.UserProfile.Application.TrinderUserProfile.Dtos;
 
-public record AddUserProfileInterestsCommand (int UserProfileId, ICollection<int> InterestsInts) { }
+namespace Trinder.UserProfile.Application.TrinderUserProfile.Commands.AddUserProfileInterests;
+
+public record AddUserProfileInterestsCommand (int UserProfileId, ICollection<int> InterestsInts) : IRequest<ResponseTrinderFullUserProfileDto> { }

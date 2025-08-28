@@ -79,12 +79,12 @@ namespace trinder_user_profile_api.Controllers
             return CreatedAtAction(nameof(GetById), new { id = userProfileId }, updatedUserProfile);
         }
 
-        [HttpPost("{userProfileId}/interests")]
+        [HttpPut("{userProfileId}/interests")]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(ResponseTrinderFullUserProfileDto))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> AddInterestsToUserProfile([FromRoute] int userProfileId, ICollection<int> interestsIds, CancellationToken cancellationToken)
+        public async Task<IActionResult> AddInterestsToUserProfile([FromRoute] int userProfileId, [FromBody] UpdateUserInterestsRequest request, CancellationToken cancellationToken)
         {
-            var command = new AddUserProfileInterestsCommand(userProfileId, interestsIds);
+            var command = new AddUserProfileInterestsCommand(userProfileId, request.InterestIds);
 
             var updatedUserProfile = await mediator.Send(command, cancellationToken);
             return CreatedAtAction(nameof(GetById), new { id = userProfileId }, updatedUserProfile);

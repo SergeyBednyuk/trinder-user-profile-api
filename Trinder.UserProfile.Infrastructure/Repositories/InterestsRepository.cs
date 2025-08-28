@@ -7,17 +7,44 @@ namespace Trinder.UserProfile.Infrastructure.Repositories;
 
 public class InterestsRepository(UserProfilesDbContext DbContext) : IInterestsRepository
 {
-    public async Task<IReadOnlyCollection<Interest>> GetByIdsAsync(IEnumerable<int> ids)
+    #region Commands
+
+    public async Task<IReadOnlyCollection<Interest>> GetByIdsAsync(IEnumerable<int> ids, CancellationToken cancellationToken = default)
     {
         var interests = await DbContext.Interests.AsNoTracking()
-                                           .Where(x => ids.Contains(x.Id))
-                                           .ToListAsync();
+                                                 .Where(x => ids.Contains(x.Id))
+                                                 .ToListAsync(cancellationToken);
 
         return interests;
     }
 
-    public Task<IReadOnlyCollection<Interest>> GetInterestsAsync()
+    public async Task<IReadOnlyCollection<Interest>> GetInterestsAsync(CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        var interests = await DbContext.Interests.AsNoTracking().ToListAsync(cancellationToken);
+        return interests;
     }
+
+    #endregion
+
+    #region Queries
+
+    public async Task<bool> AddNewInterestsToUserProfileAsync(int userProfileId, ICollection<int> ids, CancellationToken cancellationToken = default)
+    {
+        List<UserProfileInterest> userProfileInterests = [];
+        foreach (int id in ids) 
+        {
+            userProfileInterests.Add(new UserProfileInterest 
+            {
+                UserProfileId = userProfileId,
+                InterestId = id
+            });
+        }
+
+        DbContext.ProfileInterests.AddRange(userProfileInterests);
+        var result = await DbContext.SaveChangesAsync(cancellationToken);
+
+        return result == ids.Distinct().Count();
+    }
+
+    #endregion
 }
