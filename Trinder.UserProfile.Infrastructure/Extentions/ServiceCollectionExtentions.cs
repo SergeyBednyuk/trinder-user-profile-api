@@ -28,13 +28,6 @@ public static class ServiceCollectionExtentions
         services.AddScoped<IFotosRepository, FotosRepository>();
         services.AddScoped<IInterestsRepository, InterestsRepository>();
 
-        var appAssembly = typeof(ServiceCollectionExtentions).Assembly;
-
-        if (appAssembly is not null)
-        {
-            services.AddValidatorsFromAssemblies(new List<Assembly>() { appAssembly }).AddFluentValidationAutoValidation();
-        }
-
         //Azure Blob config
         var blobConnectionString = configuration.GetConnectionString("BlobStorage");
         services.AddSingleton(x => new BlobServiceClient(blobConnectionString));
