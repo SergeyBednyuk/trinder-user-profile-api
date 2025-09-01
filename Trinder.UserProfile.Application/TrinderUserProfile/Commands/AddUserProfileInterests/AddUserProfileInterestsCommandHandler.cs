@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Trinder.UserProfile.Application.TrinderUserProfile.Dtos;
@@ -10,7 +11,8 @@ namespace Trinder.UserProfile.Application.TrinderUserProfile.Commands.AddUserPro
 public class AddUserProfileInterestsCommandHandler(ILogger<AddUserProfileInterestsCommandHandler> logger, 
     IMapper mapper, 
     IUserProfilesRepository userProfilesRepository, 
-    IInterestsRepository interestsRepository) : IRequestHandler<AddUserProfileInterestsCommand, ResponseTrinderFullUserProfileDto>
+    IInterestsRepository interestsRepository,
+    IValidator<AddUserProfileInterestsCommand> validator) : IRequestHandler<AddUserProfileInterestsCommand, ResponseTrinderFullUserProfileDto>
 {
     public async Task<ResponseTrinderFullUserProfileDto> Handle(AddUserProfileInterestsCommand request, CancellationToken cancellationToken)
     {
@@ -19,8 +21,14 @@ public class AddUserProfileInterestsCommandHandler(ILogger<AddUserProfileInteres
         var userProfile = await userProfilesRepository.FindByIdAsync(request.UserProfileId);
         if (userProfile is null) throw new NotFoundException(nameof(TrinderUserProfile), request.UserProfileId.ToString());
 
+        await validator.ValidateAndThrowAsync(request, cancellationToken);
+
         var interests = await interestsRepository.GetByIdsAsync(request.InterestsInts, cancellationToken);
-        if (interests is not null) userProfile.Interests = interests.ToList();
+
+        foreach (var interest in interests)
+        {
+            userProfile.Interests.Add(interest);
+        }
 
         var result = await userProfilesRepository.UpdateAsync(userProfile);
 
