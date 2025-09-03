@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Reflection.Emit;
 using Trinder.UserProfile.Domain.Entities;
 
 namespace Trinder.UserProfile.Infrastructure.Persistence.Configurations;
@@ -17,5 +18,6 @@ public class TrinderUserProfileConfiguration : IEntityTypeConfiguration<TrinderU
         builder.HasMany<Foto>(e => e.Fotos)
             .WithOne(e => e.UserProfile)
             .HasForeignKey(e => e.UserProfileId);
+
     }
 }
