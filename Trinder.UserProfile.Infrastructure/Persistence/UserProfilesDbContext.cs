@@ -16,5 +16,7 @@ public class UserProfilesDbContext(DbContextOptions<UserProfilesDbContext> optio
 
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(UserProfilesDbContext).Assembly);
 
+        modelBuilder.Entity<Foto>()
+            .HasQueryFilter(foto => !foto.UserProfile.IsDeleted);
     }
 }
