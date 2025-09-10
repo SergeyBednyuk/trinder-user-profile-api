@@ -53,3 +53,4 @@ CodeCoverage/
 TestResult.xml
 nunit-*.xml
 /trinder-user-profile-api/.vs
+/compose.yaml
