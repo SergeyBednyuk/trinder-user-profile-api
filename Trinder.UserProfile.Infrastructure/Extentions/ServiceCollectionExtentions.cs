@@ -1,10 +1,7 @@
 ﻿using Azure.Storage.Blobs;
-using FluentValidation;
-using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
 using Trinder.UserProfile.Domain.Interfaces;
 using Trinder.UserProfile.Domain.RepositoriesInterfaces;
 using Trinder.UserProfile.Infrastructure.Persistence;

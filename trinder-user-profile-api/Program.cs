@@ -1,3 +1,4 @@
+using Azure.Identity;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
@@ -15,8 +16,10 @@ namespace trinder_user_profile_api
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            AzureKeyVaultConfiguration(builder);
 
             builder.Services.AddInfrastructure(builder.Configuration);
+
             builder.Services.AddApplication();
 
             builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
@@ -30,6 +33,7 @@ namespace trinder_user_profile_api
 
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
+
 
             var app = builder.Build();
 
@@ -54,6 +58,17 @@ namespace trinder_user_profile_api
             app.MapControllers();
 
             app.Run();
+        }
+
+        private static void AzureKeyVaultConfiguration(WebApplicationBuilder builder)
+        {
+            var keyVaultUri = new Uri(builder.Configuration["KeyVault:Url"]);
+
+            // Provide options to guide the credential
+            var credential = new DefaultAzureCredential();
+
+            // Pass the configured credential to the Key Vault provider
+            builder.Configuration.AddAzureKeyVault(keyVaultUri, credential);
         }
     }
 }
